@@ -105,12 +105,20 @@ const systemLightPreference = window.matchMedia("(prefers-color-scheme: light)")
 const reducedMotionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
 const transitionDocument = document as MoonPhaseTransitionDocument;
 const startMoonPhaseViewTransition = transitionDocument.startViewTransition?.bind(document);
+const headerPreferenceSwitchers = Array.from(
+  document.querySelectorAll<HTMLDetailsElement>("[data-header-preference-switcher]"),
+);
 const moonPhaseSwitcher = document.querySelector<HTMLDetailsElement>("[data-moon-phase-switcher]");
 const moonPhaseOptions = Array.from(
   document.querySelectorAll<HTMLInputElement>("[data-moon-phase-option]"),
 );
 const moonPhaseCurrent = document.querySelector<HTMLElement>("[data-moon-phase-current]");
 const moonPhaseSummary = moonPhaseSwitcher?.querySelector<HTMLElement>("summary");
+const languageSwitcher = document.querySelector<HTMLDetailsElement>("[data-language-switcher]");
+const languageOptions = Array.from(
+  languageSwitcher?.querySelectorAll<HTMLInputElement>("[data-language-option]") || [],
+);
+const languageSummary = languageSwitcher?.querySelector<HTMLElement>("summary");
 
 let activeMoonPhaseTransition: ActiveMoonPhaseTransition | undefined;
 let pointerTransitionOrigin: MoonPhaseTransitionOrigin | undefined;
@@ -324,16 +332,25 @@ window.addEventListener("storage", (event) => {
   applyMoonPhaseImmediately(isMoonPhase(event.newValue) ? event.newValue : configuredMoonPhase);
 });
 
-document.addEventListener("pointerdown", (event) => {
-  if (moonPhaseSwitcher?.open && !moonPhaseSwitcher.contains(event.target as Node)) {
-    moonPhaseSwitcher.open = false;
-  }
+headerPreferenceSwitchers.forEach((switcher) => {
+  switcher.addEventListener("toggle", () => {
+    if (!switcher.open) return;
+    headerPreferenceSwitchers.forEach((otherSwitcher) => {
+      if (otherSwitcher !== switcher) otherSwitcher.open = false;
+    });
+  });
+
+  switcher.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !switcher.open) return;
+    switcher.open = false;
+    switcher.querySelector<HTMLElement>("summary")?.focus();
+  });
 });
 
-moonPhaseSwitcher?.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape" || !moonPhaseSwitcher.open) return;
-  moonPhaseSwitcher.open = false;
-  moonPhaseSwitcher.querySelector<HTMLElement>("summary")?.focus();
+document.addEventListener("pointerdown", (event) => {
+  headerPreferenceSwitchers.forEach((switcher) => {
+    if (switcher.open && !switcher.contains(event.target as Node)) switcher.open = false;
+  });
 });
 
 type LinkFeedItemPayload = Record<string, unknown>;
@@ -365,7 +382,7 @@ const socialImageDialog = document.querySelector<HTMLDialogElement>("[data-socia
 const socialImagePreview = socialImageDialog?.querySelector<HTMLImageElement>("[data-social-image-preview]");
 const socialImageTitle = socialImageDialog?.querySelector<HTMLElement>("[data-social-image-title]");
 const socialImageClose = socialImageDialog?.querySelector<HTMLButtonElement>("[data-social-image-close]");
-const languageSwitcher = document.querySelector<HTMLSelectElement>("[data-language-switcher]");
+
 const menuBackground = Array.from(
   document.querySelectorAll<HTMLElement>(".site-main, .site-footer"),
 );
@@ -548,12 +565,18 @@ if (readerTools && readerSettingsEnabled) {
   });
 }
 
-languageSwitcher?.addEventListener("change", () => {
-  const language = languageSwitcher.value.trim();
-  if (!language) return;
-  const url = new URL(window.location.href);
-  url.searchParams.set("language", language);
-  window.location.assign(url.href);
+languageOptions.forEach((option) => {
+  option.addEventListener("change", () => {
+    if (!option.checked) return;
+    const language = option.value.trim();
+    if (!language) return;
+
+    languageSwitcher?.removeAttribute("open");
+    languageSummary?.focus();
+    const url = new URL(window.location.href);
+    url.searchParams.set("language", language);
+    window.location.assign(url.href);
+  });
 });
 
 const svgIconDataUrlPattern = /^data:image\/svg\+xml(?<base64>;base64)?,(?<payload>.*)$/is;

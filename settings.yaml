@@ -31,6 +31,26 @@ spec:
           accepts:
             - image/*
           value: ""
+        - $formkit: text
+          name: hero_primary_label
+          label: 首页主按钮名称
+          help: 留空时使用当前语言的“阅读文章”
+          value: ""
+        - $formkit: text
+          name: hero_primary_url
+          label: 首页主按钮链接
+          help: 支持 http(s)://、mailto:、站内路径或 # 锚点；清空后隐藏该按钮
+          value: "/archives"
+        - $formkit: text
+          name: hero_secondary_label
+          label: 首页次按钮名称
+          help: 留空时使用当前语言的“浏览分类”
+          value: ""
+        - $formkit: text
+          name: hero_secondary_url
+          label: 首页次按钮链接
+          help: 支持 http(s)://、mailto:、站内路径或 # 锚点；清空后隐藏该按钮
+          value: "/categories"
         - $formkit: singlePageSelect
           name: about_page
           label: 关于页面
@@ -55,6 +75,11 @@ spec:
     - group: navigation
       label: 导航
       formSchema:
+        - $formkit: switch
+          name: enable_multilingual
+          label: 开启多语言
+          help: 在前台导航中显示简体中文与 English 语言切换器
+          value: true
         - $formkit: array
           name: social_media
           label: 社交媒体

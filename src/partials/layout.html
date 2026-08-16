@@ -147,7 +147,7 @@
             </symbol>
           </svg>
 
-          <details class="moon-phase-switcher" data-moon-phase-switcher>
+          <details class="moon-phase-switcher" data-header-preference-switcher data-moon-phase-switcher>
             <summary th:aria-label="#{nav.moonPhase}" th:title="#{nav.moonPhase}">
               <svg class="moon-phase-symbol moon-phase-symbol--trigger" aria-hidden="true" focusable="false" viewBox="0 0 20 20">
                 <use data-phase-icon="midnight" href="#moonlit-mountain-phase-midnight"></use>
@@ -196,26 +196,49 @@
             </fieldset>
           </details>
 
-          <label class="language-switcher">
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="9"></circle>
-              <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>
-            </svg>
-            <span class="sr-only" th:text="#{nav.language}">语言</span>
-            <select th:aria-label="#{nav.language}" data-language-switcher>
-              <option
-                value="zh-CN"
-                th:selected="${#strings.startsWith(#locale.toLanguageTag(), 'zh')}"
-                th:text="#{language.zhCN}"
-              >简体中文</option>
-              <option
-                value="en"
-                th:selected="${not #strings.startsWith(#locale.toLanguageTag(), 'zh')}"
-                th:text="#{language.en}"
-              >English</option>
-            </select>
-            <svg class="language-switcher__chevron" aria-hidden="true" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"></path></svg>
-          </label>
+          <details
+            class="moon-phase-switcher language-switcher"
+            data-header-preference-switcher
+            data-language-switcher
+            th:if="${theme.config?.navigation?.enable_multilingual != false}"
+          >
+            <summary th:aria-label="#{nav.language}" th:title="#{nav.language}">
+              <svg class="language-switcher__globe" aria-hidden="true" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>
+              </svg>
+              <span class="moon-phase-switcher__label" th:text="#{nav.language}">语言</span>
+              <span
+                class="moon-phase-switcher__current"
+                th:text="${#strings.startsWith(#locale.toLanguageTag(), 'zh') ? #messages.msg('language.zhCN') : #messages.msg('language.en')}"
+              >简体中文</span>
+              <svg class="moon-phase-switcher__chevron" aria-hidden="true" viewBox="0 0 20 20"><path d="m6 8 4 4 4-4"></path></svg>
+            </summary>
+            <fieldset class="moon-phase-switcher__panel">
+              <legend class="sr-only" th:text="#{nav.language}">语言</legend>
+              <label class="moon-phase-option">
+                <input
+                  type="radio"
+                  name="site-language"
+                  value="zh-CN"
+                  data-language-option
+                  checked
+                  th:checked="${#strings.startsWith(#locale.toLanguageTag(), 'zh')}"
+                />
+                <span class="moon-phase-option__copy"><strong th:text="#{language.zhCN}">简体中文</strong></span>
+              </label>
+              <label class="moon-phase-option">
+                <input
+                  type="radio"
+                  name="site-language"
+                  value="en"
+                  data-language-option
+                  th:checked="${not #strings.startsWith(#locale.toLanguageTag(), 'zh')}"
+                />
+                <span class="moon-phase-option__copy"><strong th:text="#{language.en}">English</strong></span>
+              </label>
+            </fieldset>
+          </details>
 
           <th:block th:with="socials = ${theme.config?.navigation?.social_media}">
             <nav class="social-nav" th:aria-label="#{nav.social.label}" data-nav-track th:if="${not #lists.isEmpty(socials)}">

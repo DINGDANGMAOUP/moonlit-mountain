@@ -13,8 +13,18 @@
         在山月之间，记录技术、创作与日常的回声。
       </p>
       <div class="hero-actions">
-        <a class="button button--primary" th:href="@{${site.routes.archivesUri}}" th:text="#{common.readPost}">阅读文章</a>
-        <a class="button button--secondary" th:href="@{${site.routes.categoriesUri}}" th:text="#{page.index.browseCategories}">浏览分类</a>
+        <a
+          class="button button--primary"
+          th:if="${theme.config?.home?.hero_primary_url == null or not #strings.isEmpty(theme.config?.home?.hero_primary_url)}"
+          th:href="@{${theme.config?.home?.hero_primary_url ?: site.routes.archivesUri}}"
+          th:text="${theme.config?.home?.hero_primary_label ?: #messages.msg('common.readPost')}"
+        >阅读文章</a>
+        <a
+          class="button button--secondary"
+          th:if="${theme.config?.home?.hero_secondary_url == null or not #strings.isEmpty(theme.config?.home?.hero_secondary_url)}"
+          th:href="@{${theme.config?.home?.hero_secondary_url ?: site.routes.categoriesUri}}"
+          th:text="${theme.config?.home?.hero_secondary_label ?: #messages.msg('page.index.browseCategories')}"
+        >浏览分类</a>
       </div>
     </div>
 

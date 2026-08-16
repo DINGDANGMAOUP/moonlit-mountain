@@ -574,71 +574,14 @@ body[data-template="post"] .page-progress {
   display: none;
 }
 
-.language-switcher {
-  position: relative;
-  display: flex;
-  min-height: 44px;
-  padding: 0 10px;
-  align-items: center;
-  gap: 6px;
-  color: var(--text-subtle);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: rgb(var(--surface-rgb) / 80%);
-  box-shadow: 0 20px 42px rgb(0 0 0 / 20%);
-  backdrop-filter: blur(12px);
-  transition: color 160ms var(--ease), border-color 160ms var(--ease);
-}
-
-.language-switcher:hover,
-.language-switcher:focus-within {
-  color: var(--nav-sky);
-  border-color: color-mix(in srgb, var(--nav-sky) 45%, var(--border));
-}
-
-.language-switcher > svg {
-  width: 16px;
-  height: 16px;
-  flex: none;
+.language-switcher__globe {
+  width: 20px;
+  height: 20px;
   fill: none;
   stroke: currentcolor;
   stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-.language-switcher select {
-  width: 66px;
-  min-height: 42px;
-  padding: 0 16px 0 0;
-  color: inherit;
-  border: 0;
-  appearance: none;
-  background: transparent;
-  cursor: pointer;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.language-switcher select:focus-visible {
-  border-radius: 4px;
-  outline: 2px solid var(--nav-sky);
-  outline-offset: 2px;
-}
-
-.language-switcher option {
-  color: var(--text);
-  background: var(--page);
-}
-
-.language-switcher > .language-switcher__chevron {
-  position: absolute;
-  right: 9px;
-  width: 12px;
-  height: 12px;
-  pointer-events: none;
 }
 
 .moon-phase-switcher {
@@ -824,6 +767,18 @@ body[data-template="post"] .page-progress {
   white-space: nowrap;
 }
 
+.language-switcher .moon-phase-option {
+  grid-template-columns: minmax(0, 1fr) 14px;
+}
+
+.language-switcher .moon-phase-option input {
+  grid-column: 2;
+}
+
+.language-switcher .moon-phase-option__copy {
+  grid-column: 1;
+}
+
 body.social-dialog-open {
   overflow: hidden;
 }
@@ -927,16 +882,6 @@ body.social-dialog-open {
   .moon-phase-switcher > summary {
     width: 44px;
     height: 44px;
-  }
-
-  .language-switcher {
-    padding-inline: 8px;
-    gap: 4px;
-  }
-
-  .language-switcher select {
-    width: 64px;
-    font-size: 11px;
   }
 
   .social-nav > a,
@@ -5218,14 +5163,6 @@ body[data-template="archives"] .listing-hero > p:last-child {
     padding-inline: 24px;
   }
 
-  .language-switcher {
-    margin: 8px 12px 0;
-    border-radius: 10px;
-    background: rgb(var(--surface-rgb) / 55%);
-    box-shadow: none;
-    backdrop-filter: none;
-  }
-
   .moon-phase-switcher {
     margin: 8px 8px 0;
     padding-top: 8px;
@@ -5297,12 +5234,6 @@ body[data-template="archives"] .listing-hero > p:last-child {
     border-radius: 0;
     background: transparent;
     box-shadow: none;
-  }
-
-  .language-switcher select {
-    width: 100%;
-    min-width: 0;
-    font-size: 12px;
   }
 
   .nav-indicator {
