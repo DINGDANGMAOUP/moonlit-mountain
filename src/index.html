@@ -29,33 +29,103 @@
     </div>
   </section>
 
-  <th:block th:with="pinnedPosts = ${posts.items.?[spec.pinned]}">
-    <section class="cover-strip" aria-label="置顶文章" th:aria-label="#{page.index.pinnedPosts}" th:if="${not #lists.isEmpty(pinnedPosts)}">
-      <div class="cover-strip__track">
-        <div class="cover-strip__set">
-          <a
-            class="cover-tile"
-            th:each="post : ${pinnedPosts}"
-            th:href="@{${post.status.permalink}}"
-          >
-            <img
-              th:src="${(not #strings.isEmpty(post.spec.cover) and post.spec.cover != '0') ? post.spec.cover : #theme.assets('/images/moonlit-mountain-hero.jpg')}"
-              th:alt="${post.spec.title}"
-              loading="lazy"
-            />
-          </a>
+  <th:block
+    th:with="
+      coverStripSource = ${theme.config?.home?.cover_strip_source ?: 'pinned'},
+      coverStripCategoryName = ${theme.config?.home?.cover_strip_category},
+      coverStripTagName = ${theme.config?.home?.cover_strip_tag}
+    "
+  >
+    <th:block th:if="${coverStripSource == 'pinned'}" th:with="coverStripPosts = ${posts.items.?[spec.pinned]}">
+      <section class="cover-strip" th:aria-label="#{page.index.pinnedPosts}" th:if="${not #lists.isEmpty(coverStripPosts)}">
+        <div class="cover-strip__track">
+          <div class="cover-strip__set">
+            <a
+              class="cover-tile"
+              th:each="post : ${coverStripPosts}"
+              th:href="@{${post.status.permalink}}"
+            >
+              <img
+                th:src="${(not #strings.isEmpty(post.spec.cover) and post.spec.cover != '0') ? post.spec.cover : #theme.assets('/images/moonlit-mountain-hero.jpg')}"
+                th:alt="${post.spec.title}"
+                loading="lazy"
+              />
+            </a>
+          </div>
+          <div class="cover-strip__set" aria-hidden="true">
+            <span class="cover-tile" th:each="post : ${coverStripPosts}">
+              <img
+                th:src="${(not #strings.isEmpty(post.spec.cover) and post.spec.cover != '0') ? post.spec.cover : #theme.assets('/images/moonlit-mountain-hero.jpg')}"
+                alt=""
+                loading="lazy"
+              />
+            </span>
+          </div>
         </div>
-        <div class="cover-strip__set" aria-hidden="true">
-          <span class="cover-tile" th:each="post : ${pinnedPosts}">
-            <img
-              th:src="${(not #strings.isEmpty(post.spec.cover) and post.spec.cover != '0') ? post.spec.cover : #theme.assets('/images/moonlit-mountain-hero.jpg')}"
-              alt=""
-              loading="lazy"
-            />
-          </span>
-        </div>
-      </div>
-    </section>
+      </section>
+    </th:block>
+
+    <th:block th:if="${coverStripSource == 'category' and not #strings.isEmpty(coverStripCategoryName)}" th:with="coverCategory = ${categoryFinder.getByName(coverStripCategoryName)}">
+      <th:block th:if="${coverCategory != null}" th:with="coverStripPosts = ${postFinder.list({page: 1, size: 20, categoryName: coverStripCategoryName}).items}">
+        <section class="cover-strip" th:aria-label="#{page.index.categoryPosts}" th:if="${not #lists.isEmpty(coverStripPosts)}">
+          <div class="cover-strip__track">
+            <div class="cover-strip__set">
+              <a
+                class="cover-tile"
+                th:each="post : ${coverStripPosts}"
+                th:href="@{${post.status.permalink}}"
+              >
+                <img
+                  th:src="${(not #strings.isEmpty(post.spec.cover) and post.spec.cover != '0') ? post.spec.cover : #theme.assets('/images/moonlit-mountain-hero.jpg')}"
+                  th:alt="${post.spec.title}"
+                  loading="lazy"
+                />
+              </a>
+            </div>
+            <div class="cover-strip__set" aria-hidden="true">
+              <span class="cover-tile" th:each="post : ${coverStripPosts}">
+                <img
+                  th:src="${(not #strings.isEmpty(post.spec.cover) and post.spec.cover != '0') ? post.spec.cover : #theme.assets('/images/moonlit-mountain-hero.jpg')}"
+                  alt=""
+                  loading="lazy"
+                />
+              </span>
+            </div>
+          </div>
+        </section>
+      </th:block>
+    </th:block>
+
+    <th:block th:if="${coverStripSource == 'tag' and not #strings.isEmpty(coverStripTagName)}" th:with="coverTag = ${tagFinder.getByName(coverStripTagName)}">
+      <th:block th:if="${coverTag != null}" th:with="coverStripPosts = ${postFinder.list({page: 1, size: 20, tagName: coverStripTagName}).items}">
+        <section class="cover-strip" th:aria-label="#{page.index.tagPosts}" th:if="${not #lists.isEmpty(coverStripPosts)}">
+          <div class="cover-strip__track">
+            <div class="cover-strip__set">
+              <a
+                class="cover-tile"
+                th:each="post : ${coverStripPosts}"
+                th:href="@{${post.status.permalink}}"
+              >
+                <img
+                  th:src="${(not #strings.isEmpty(post.spec.cover) and post.spec.cover != '0') ? post.spec.cover : #theme.assets('/images/moonlit-mountain-hero.jpg')}"
+                  th:alt="${post.spec.title}"
+                  loading="lazy"
+                />
+              </a>
+            </div>
+            <div class="cover-strip__set" aria-hidden="true">
+              <span class="cover-tile" th:each="post : ${coverStripPosts}">
+                <img
+                  th:src="${(not #strings.isEmpty(post.spec.cover) and post.spec.cover != '0') ? post.spec.cover : #theme.assets('/images/moonlit-mountain-hero.jpg')}"
+                  alt=""
+                  loading="lazy"
+                />
+              </span>
+            </div>
+          </div>
+        </section>
+      </th:block>
+    </th:block>
   </th:block>
 
   <section

@@ -1,6 +1,6 @@
 {
   "name": "moonlit-mountain",
-  "version": "0.0.2",
+  "version": "0.0.2-beta.1",
   "private": true,
   "description": "山月记：支持深夜、暮色、月白与跟随系统“月相”配色的 Halo 内容主题，默认保持当前深夜品牌",
   "author": "dingdangmaoup",

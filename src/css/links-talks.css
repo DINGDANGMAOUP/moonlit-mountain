@@ -938,7 +938,7 @@ a.link-feed-entry__story:focus-visible .link-feed-entry__cta svg {
   --halo-cw-primary-1-color: var(--accent-b);
   --halo-cw-primary-2-color: var(--nav-violet);
   --halo-cw-base-rounded: 12px;
-  --halo-cw-base-font-family: "General Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --halo-cw-base-font-family: var(--custom-font, "General Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif);
 
   width: min(var(--links-content-width), calc(100% - var(--links-edge) * 2));
   margin: 160px auto 0;

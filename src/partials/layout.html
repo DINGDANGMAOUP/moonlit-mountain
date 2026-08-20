@@ -5,12 +5,18 @@
   data-color-scheme="dark"
   data-moon-phase="midnight"
   data-resolved-moon-phase="midnight"
+  th:style="${not #strings.isEmpty(theme.config.style.custom_font)} ? |--custom-font: '${theme.config.style.custom_font}', 'General Sans', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;| : ''"
   xmlns:th="http://www.thymeleaf.org"
 >
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#18181b" />
+    <link
+      th:if="${not #strings.isEmpty(theme.config.style.custom_font)}"
+      th:href="'https://fonts.googleapis.com/css2?family=' + ${#strings.replace(theme.config.style.custom_font, ' ', '+')} + '&display=swap'"
+      rel="stylesheet"
+    />
     <include src="moon-phase-bootstrap.html"></include>
     <slot name="head">
       <title th:text="${site.title}">山月记</title>
