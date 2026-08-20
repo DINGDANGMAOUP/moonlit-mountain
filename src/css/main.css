@@ -229,7 +229,7 @@ body {
   overflow-x: clip;
   color: var(--text);
   background: var(--page);
-  font-family: "General Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  font-family: var(--custom-font, "General Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
@@ -3585,7 +3585,7 @@ body[data-template="archives"] .listing-hero > p:last-child {
   --halo-cw-primary-1-color: var(--accent-b);
   --halo-cw-primary-2-color: var(--accent-mid);
   --halo-cw-base-rounded: 12px;
-  --halo-cw-base-font-family: "General Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --halo-cw-base-font-family: var(--custom-font, "General Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif);
 
   padding-bottom: 144px;
 }
@@ -4613,7 +4613,7 @@ body[data-template="archives"] .listing-hero > p:last-child {
   --halo-cw-primary-1-color: var(--accent-b);
   --halo-cw-primary-2-color: var(--accent-mid);
   --halo-cw-base-rounded: 12px;
-  --halo-cw-base-font-family: "General Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --halo-cw-base-font-family: var(--custom-font, "General Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif);
 
   width: min(864px, calc(100% - 64px));
   margin: 0 auto;

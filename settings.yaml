@@ -21,6 +21,11 @@ spec:
               value: moonlight
             - label: 跟随系统
               value: system
+        - $formkit: text
+          name: custom_font
+          label: 自定义在线字体
+          help: 填写字体名称（如 LXGW Marker Gothic），将从 fonts.googleapis.com 加载；留空时使用主题默认字体
+          value: ""
     - group: home
       label: 首页内容
       formSchema:
@@ -30,6 +35,34 @@ spec:
           help: 留空时使用主题内置图片
           accepts:
             - image/*
+          value: ""
+        - $formkit: select
+          name: cover_strip_source
+          label: 封面条内容来源
+          help: 选择首页封面条展示的文章来源
+          value: pinned
+          options:
+            - label: 置顶文章
+              value: pinned
+            - label: 指定分类
+              value: category
+            - label: 指定标签
+              value: tag
+            - label: 不显示
+              value: none
+        - $formkit: categorySelect
+          name: cover_strip_category
+          label: 封面条分类
+          help: 当内容来源为“指定分类”时生效
+          clearable: true
+          autoSelect: false
+          value: ""
+        - $formkit: tagSelect
+          name: cover_strip_tag
+          label: 封面条标签
+          help: 当内容来源为“指定标签”时生效
+          clearable: true
+          autoSelect: false
           value: ""
         - $formkit: singlePageSelect
           name: about_page
