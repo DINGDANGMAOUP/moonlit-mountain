@@ -22,7 +22,7 @@
   "devDependencies": {
     "@halo-dev/theme-package-cli": "^1.0.1",
     "@halo-dev/vite-plugin-halo-theme": "1.0.3",
-    "vite": "^8.0.0"
+    "vite": "^8.1.6"
   },
   "packageManager": "pnpm@10.33.0"
 }
